@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "trek_itineries",
+  "info": {
+    "singularName": "trek-itinerary",
+    "pluralName": "trek-itineries",
+    "displayName": "Trek Itineries",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "day": {
+      "type": "integer",
+      "required": true
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "keyHighlight": {
+      "type": "json",
+      "required": true
+    },
+    "trekking_package": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::trekking-package.trekking-package",
+      "inversedBy": "trek_itineries"
+    }
+  }
+}

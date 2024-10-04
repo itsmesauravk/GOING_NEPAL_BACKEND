@@ -1,0 +1,69 @@
+{
+  "kind": "collectionType",
+  "collectionName": "trekking_packages",
+  "info": {
+    "singularName": "trekking-package",
+    "pluralName": "trekking-packages",
+    "displayName": "Trekking Packages",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "trekTitle": {
+      "type": "string",
+      "required": true
+    },
+    "duration": {
+      "type": "string",
+      "required": true
+    },
+    "difficulty": {
+      "type": "enumeration",
+      "enum": [
+        "beginner",
+        "moderate",
+        "hard"
+      ]
+    },
+    "groupSizeMin": {
+      "type": "integer",
+      "required": true,
+      "min": 1
+    },
+    "groupSizeMax": {
+      "type": "integer",
+      "required": true,
+      "min": 1,
+      "max": 20
+    },
+    "price": {
+      "type": "string",
+      "required": true
+    },
+    "startingPoint": {
+      "type": "string",
+      "required": true
+    },
+    "endPoint": {
+      "type": "string",
+      "required": true
+    },
+    "meal": {
+      "type": "enumeration",
+      "enum": [
+        "inclusive",
+        "exclusive"
+      ],
+      "required": true
+    },
+    "trek_itineries": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::trek-itinerary.trek-itinerary",
+      "mappedBy": "trekking_package"
+    }
+  }
+}

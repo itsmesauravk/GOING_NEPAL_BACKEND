@@ -1,34 +1,5 @@
 import type { Struct, Schema } from '@strapi/strapi';
 
-export interface ApiMyPluginContentTypeMyPluginContentType
-  extends Struct.CollectionTypeSchema {
-  collectionName: 'my_plugin_content_types';
-  info: {
-    singularName: 'my-plugin-content-type';
-    pluralName: 'my-plugin-content-types';
-    displayName: 'My Plugin Content-Type';
-  };
-  options: {
-    comment: '';
-    draftAndPublish: false;
-  };
-  attributes: {
-    test: Schema.Attribute.String;
-    createdAt: Schema.Attribute.DateTime;
-    updatedAt: Schema.Attribute.DateTime;
-    publishedAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    locale: Schema.Attribute.String;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::my-plugin-content-type.my-plugin-content-type'
-    >;
-  };
-}
-
 export interface PluginUploadFile extends Struct.CollectionTypeSchema {
   collectionName: 'files';
   info: {
@@ -514,6 +485,99 @@ export interface PluginUsersPermissionsUser
   };
 }
 
+export interface ApiTrekItineraryTrekItinerary
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'trek_itineries';
+  info: {
+    singularName: 'trek-itinerary';
+    pluralName: 'trek-itineries';
+    displayName: 'Trek Itineries';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    day: Schema.Attribute.Integer & Schema.Attribute.Required;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    description: Schema.Attribute.Text;
+    keyHighlight: Schema.Attribute.JSON & Schema.Attribute.Required;
+    trekking_package: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::trekking-package.trekking-package'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::trek-itinerary.trek-itinerary'
+    >;
+  };
+}
+
+export interface ApiTrekkingPackageTrekkingPackage
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'trekking_packages';
+  info: {
+    singularName: 'trekking-package';
+    pluralName: 'trekking-packages';
+    displayName: 'Trekking Packages';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    trekTitle: Schema.Attribute.String & Schema.Attribute.Required;
+    duration: Schema.Attribute.String & Schema.Attribute.Required;
+    difficulty: Schema.Attribute.Enumeration<['beginner', 'moderate', 'hard']>;
+    groupSizeMin: Schema.Attribute.Integer &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 1;
+        },
+        number
+      >;
+    groupSizeMax: Schema.Attribute.Integer &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 1;
+          max: 20;
+        },
+        number
+      >;
+    price: Schema.Attribute.String & Schema.Attribute.Required;
+    startingPoint: Schema.Attribute.String & Schema.Attribute.Required;
+    endPoint: Schema.Attribute.String & Schema.Attribute.Required;
+    meal: Schema.Attribute.Enumeration<['inclusive', 'exclusive']> &
+      Schema.Attribute.Required;
+    trek_itineries: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::trek-itinerary.trek-itinerary'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::trekking-package.trekking-package'
+    >;
+  };
+}
+
 export interface AdminPermission extends Struct.CollectionTypeSchema {
   collectionName: 'admin_permissions';
   info: {
@@ -879,7 +943,6 @@ export interface AdminTransferTokenPermission
 declare module '@strapi/strapi' {
   export module Public {
     export interface ContentTypeSchemas {
-      'api::my-plugin-content-type.my-plugin-content-type': ApiMyPluginContentTypeMyPluginContentType;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::i18n.locale': PluginI18NLocale;
@@ -890,6 +953,8 @@ declare module '@strapi/strapi' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
+      'api::trek-itinerary.trek-itinerary': ApiTrekItineraryTrekItinerary;
+      'api::trekking-package.trekking-package': ApiTrekkingPackageTrekkingPackage;
       'admin::permission': AdminPermission;
       'admin::user': AdminUser;
       'admin::role': AdminRole;
